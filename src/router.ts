@@ -1,8 +1,8 @@
 import { Router } from 'express';
-import staticRouter from './staticRouter';
+import fileRouter from './fileRouter';
 
 const router = Router();
 
-router.use(staticRouter);
+router.use(fileRouter);
 
 export default router;

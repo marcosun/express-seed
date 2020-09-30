@@ -31,7 +31,7 @@ const {
  */
 export default async function createExpressApp(done?: Function) {
   /**
-   * Create a connection to content sharing service database of MongoDB.
+   * Create a connection to express-seed database of MongoDB.
    * Express application waits until mongoDB connects.
    */
   await mongoose.connect(`mongodb://${DB_HOST}:${DB_PORT}/${DB_NAME}`, {

@@ -3,8 +3,8 @@ import express, { Router } from 'express';
 const router = Router();
 
 /**
- * Find content by id.
+ * Find file by id.
  */
-router.use('/static', express.static('public'))
+router.use('/files', express.static('public'))
 
 export default router;
