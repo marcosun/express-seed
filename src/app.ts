@@ -1,7 +1,6 @@
 import { config as configDotenv } from 'dotenv';
 import express from 'express';
 import session from 'express-session';
-import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 import connectMongo from 'connect-mongo';
 import router from './router';
@@ -45,6 +44,11 @@ export default async function createExpressApp(done?: Function) {
      * https://mongoosejs.com/docs/deprecations.html#the-usenewurlparser-option
      */
     useNewUrlParser: true,
+    /**
+     * Resolve deprecation warning.
+     * https://github.com/mongodb/node-mongodb-native/releases/tag/v3.2.1
+     */
+    useUnifiedTopology: true,
   });
 
   /* eslint-disable-next-line no-console */
@@ -91,11 +95,11 @@ export default async function createExpressApp(done?: Function) {
   /**
    * Parse application/json.
    */
-  app.use(bodyParser.json());
+  app.use(express.json());
   /**
    * Parse application/x-www-form-urlencoded.
    */
-  app.use(bodyParser.urlencoded({ extended: true }));
+  app.use(express.urlencoded({ extended: true }));
 
   /**
    * RESTful API services.
