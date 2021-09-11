@@ -3,8 +3,8 @@ import express from 'express';
 import session from 'express-session';
 import mongoose from 'mongoose';
 import MongoStore from 'connect-mongo';
+import { MongoClient } from 'mongodb';
 import router from './router';
-import { MongoClient } from 'connect-mongo/node_modules/mongodb';
 
 /**
  * As early as possible in your application, require and configure dotenv.
