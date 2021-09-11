@@ -2,8 +2,9 @@ import { config as configDotenv } from 'dotenv';
 import express from 'express';
 import session from 'express-session';
 import mongoose from 'mongoose';
-import connectMongo from 'connect-mongo';
+import MongoStore from 'connect-mongo';
 import router from './router';
+import { MongoClient } from 'connect-mongo/node_modules/mongodb';
 
 /**
  * As early as possible in your application, require and configure dotenv.
@@ -33,31 +34,10 @@ export default async function createExpressApp(done?: Function) {
    * Create a connection to express-seed database of MongoDB.
    * Express application waits until mongoDB connects.
    */
-  await mongoose.connect(`mongodb://${DB_HOST}:${DB_PORT}/${DB_NAME}`, {
-    /**
-     * Resolve deprecation warning.
-     * https://mongoosejs.com/docs/deprecations.html#-ensureindex-
-     */
-    useCreateIndex: true,
-    /**
-     * Resolve deprecation warning.
-     * https://mongoosejs.com/docs/deprecations.html#the-usenewurlparser-option
-     */
-    useNewUrlParser: true,
-    /**
-     * Resolve deprecation warning.
-     * https://github.com/mongodb/node-mongodb-native/releases/tag/v3.2.1
-     */
-    useUnifiedTopology: true,
-  });
+  const mongoInstance = await mongoose.connect(`mongodb://${DB_HOST}:${DB_PORT}/${DB_NAME}`);
 
   /* eslint-disable-next-line no-console */
   console.log(`MongoDB connected at mongodb://${DB_HOST}:${DB_PORT}/${DB_NAME}`);
-
-  /**
-   * Save user sessions in MongoDB.
-   */
-  const MongoStore = connectMongo(session);
 
   const app = express();
 
@@ -86,10 +66,12 @@ export default async function createExpressApp(done?: Function) {
     saveUninitialized: false,
     secret: SESSION_SECRET,
     /**
-     * Save sessions in MongoDB.
+     * Save user sessions in MongoDB.
      * Re-use MongoDB connection.
      */
-    store: new MongoStore({ mongooseConnection: mongoose.connection }),
+    store: MongoStore.create({
+      client: mongoInstance.connection.getClient() as unknown as MongoClient,
+    }),
   }));
 
   /**
