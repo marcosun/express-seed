@@ -1,4 +1,5 @@
 import "regenerator-runtime/runtime";
+import './config';
 import { AddressInfo } from "net";
 import createExpressApp from './app';
 

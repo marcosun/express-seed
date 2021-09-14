@@ -1,15 +1,9 @@
-import { config as configDotenv } from 'dotenv';
 import express from 'express';
 import session from 'express-session';
 import mongoose from 'mongoose';
 import MongoStore from 'connect-mongo';
 import { MongoClient } from 'mongodb';
 import router from './router';
-
-/**
- * As early as possible in your application, require and configure dotenv.
- */
-configDotenv();
 
 const {
   DB_HOST,
