@@ -7,7 +7,7 @@
     "build": "tsc",
     "prebuild": "rimraf dist",
     "serve": "node dist/index.js",
-    "start": "nodemon --exec ts-node -r tsconfig-paths/register src/index.ts"
+    "start": "nodemon -e ts,tsx --exec ts-node -r tsconfig-paths/register src/index.ts"
   },
   "repository": "git@github.com:marcosun/express-seed.git",
   "author": "marcosun <marcoinbristol@gmail.com>",
