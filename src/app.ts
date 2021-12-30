@@ -11,12 +11,14 @@ const {
   DB_PORT,
   SESSION_MAX_AGE,
   SESSION_SECRET,
+  COOKIE_DOMAIN,
 } = process.env as {
   DB_HOST: string;
   DB_NAME: string;
   DB_PORT: string;
   SESSION_MAX_AGE: string;
   SESSION_SECRET: string;
+  COOKIE_DOMAIN: string;
 };
 
 /**
@@ -45,6 +47,10 @@ export default async function createExpressApp(done?: Function) {
        * maxAge cannot be a string, it must be a number.
        */
       maxAge: Number(SESSION_MAX_AGE),
+      /**
+       * Set domain as domain.com to share session between subdomain.domain.com.
+       */
+      domain: COOKIE_DOMAIN,
     },
     /**
      * Don't save to db if session is not modified.
